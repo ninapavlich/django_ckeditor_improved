@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-
+#this is a test
 setup(name = 'django_ckeditorfiles',
       description = 'CKEditor bundled as a django staticfiles app.',
       version = '1.2',
