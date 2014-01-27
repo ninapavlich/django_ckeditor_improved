@@ -985,7 +985,7 @@
 										//  [ editor.lang.image.alignBaseline , 'baseline'],
 										//  [ editor.lang.image.alignTextTop , 'text-top'],
 										//  [ editor.lang.image.alignBottom , 'bottom'],
-										  [ editor.lang.image.alignMiddle , 'middle'],
+										//  [ editor.lang.image.alignMiddle , 'middle'],
 										//  [ editor.lang.image.alignTop , 'top']
 									],
 									onChange: function() {
