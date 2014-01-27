@@ -40,6 +40,7 @@ var CKBUILDER_CONFIG = {
 		'clipboard' : 1,
 		'fakeobjects' : 1,
 		'image' : 1,
+		'image2' : 1,
 		'imagebrowser' : 1,
 		'link' : 1,
 		'magicline' : 1,
