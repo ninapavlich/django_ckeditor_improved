@@ -25,8 +25,6 @@ class CKEditorInlineWidget(Textarea):
         final_attrs = self.build_attrs(attrs, name=name)
 
 
-        
-
         #NOTE -- for inline editors: Inline forms will be assigned an ID after render is called. SO what we do is assign a data attribute here so we can re-look it up.
         script = ('\n<script type="text/javascript">\n'
                     'var inited_editors = {{}};'
