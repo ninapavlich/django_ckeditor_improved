@@ -1,0 +1,12 @@
+Django==1.5.4
+PIL==1.1.7
+South==0.7.6
+distribute==0.6.38
+django-appconf==0.6
+django-grappelli==2.4.4
+django-imagekit==3.2
+django-reversion==1.8.0
+django-storages==1.1.8
+pilkit==1.1.6
+six==1.5.2
+wsgiref==0.1.2

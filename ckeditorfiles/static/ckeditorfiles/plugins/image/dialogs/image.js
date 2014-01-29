@@ -75,27 +75,39 @@
 
 					var raw_style = this.imageElement.getAttribute( 'style' );
 					if(raw_style){
-						var figureStyles = "display:inline-block;";
+
+
+						var figureStyles = "";
+						var capStyles = "";
+
+						var float_start = raw_style.indexOf("float:");
+						if(float_start>=0){							
+							var end = raw_style.indexOf(";", float_start);
+							var raw_float = end >= 0 ? raw_style.substring(float_start+6, end) : raw_style.substring(float_start+6);	
+
+							if(raw_float.indexOf("none")>=0){
+								figureStyles = figureStyles+"display:block;float: "+raw_float+";";
+								capStyles = "text-align:center;";
+							}else{
+								figureStyles = figureStyles+"display:inline-block;float: "+raw_float+";";
+							}
+						}
+
 
 						//EX: width: 150px; height: 90px; 
 						var width_start = raw_style.indexOf("width:");
 						if(width_start>=0){							
 							var end = raw_style.indexOf("px", width_start);
-							var raw_width = end >= 0 ? raw_style.substring(width_start+6, end) : raw_style.substring(width_start+6);							
+							var raw_width = end >= 0 ? raw_style.substring(width_start+6, end) : raw_style.substring(width_start+6);					
 							
 							figureStyles = figureStyles+"width: "+raw_width+"px;";
 
 						}
 
-						var float_start = raw_style.indexOf("float:");
-						if(float_start>=0){							
-							var end = raw_style.indexOf(";", float_start);
-							var raw_float = end >= 0 ? raw_style.substring(float_start+6, end) : raw_style.substring(float_start+6);							
-							figureStyles = figureStyles+"float: "+raw_float+";";
 
-						}
 
 						this.figureElement.setAttribute( 'style', figureStyles);
+						this.figureCaptionElement.setAttribute('style', capStyles);
 					}
 				}
 				
@@ -975,9 +987,9 @@
 									label: editor.lang.common.align,
 									'default': '',
 									items: [
-										[ editor.lang.common.notSet, '' ],
 										[ editor.lang.common.alignLeft, 'left' ],
-										[ editor.lang.common.alignRight, 'right' ]
+										[ editor.lang.common.alignRight, 'right' ],
+										[ editor.lang.common.alignCenter, 'center' ]
 										// Backward compatible with v2 on setup when specified as attribute value,
 										// while these values are no more available as select options.
 										//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
@@ -995,11 +1007,13 @@
 									setup: function( type, element ) {
 										if ( type == IMAGE ) {
 											var value = element.getStyle( 'float' );
+											//console.log("float value = "+value)
 											switch ( value ) {
 												// Ignore those unrelated values.
 												case 'inherit':
 												case 'none':
-													value = '';
+												case '':
+													value = 'center';
 											}
 
 											!value && ( value = ( element.getAttribute( 'align' ) || '' ).toLowerCase() );
@@ -1008,12 +1022,28 @@
 									},
 									commit: function( type, element, internalCommit ) {
 										var value = this.getValue();
+										
+										//console.log("commit! type = "+type+" value = "+value)
 										if ( type == IMAGE || type == PREVIEW ) {
-											if ( value )
-												element.setStyle( 'float', value );
-											else
-												element.removeStyle( 'float' );
+											if ( value ){
 
+												if(value == "center"){
+													element.setStyle( 'float', "none" );
+													element.setStyle( 'display', "block" );
+													element.setStyle( 'margin', "auto" );
+												
+												}else{
+													element.setStyle( 'float', value );
+													element.setStyle( 'display', "inline" );
+													element.setStyle( 'margin', "auto" );
+												}
+
+											}else{
+
+												element.removeStyle( 'float' );
+												element.removeStyle( 'display' );
+												element.removeStyle( 'margin' );
+											}
 											if ( !internalCommit && type == IMAGE ) {
 												value = ( element.getAttribute( 'align' ) || '' ).toLowerCase();
 												switch ( value ) {
@@ -1021,6 +1051,7 @@
 													// otherwise leave it intact.
 													case 'left':
 													case 'right':
+													case 'center':
 														element.removeAttribute( 'align' );
 												}
 											}
