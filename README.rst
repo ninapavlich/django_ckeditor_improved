@@ -12,20 +12,20 @@ Install
 Setup
 =====
 
-Add ``'ckeditorfiles'`` and ``'django.contrib.staticfiles'`` to
+Add ``'ckeditor'`` and ``'django.contrib.staticfiles'`` to
 ``INSTALLED_APPS``.
 
 
 Verify install
 ==============
 Start the Django development server (runserver), and open
-http://localhost:8000/static/ckeditorfiles/samples/index.html. You should get
+http://localhost:8000/static/ckeditor/samples/index.html. You should get
 the CKEditor examples page.
 
 
 CKEditor version
 ================
-See ``static/ckeditorfiles/CHANGES.md``.
+See ``static/ckeditor/CHANGES.md``.
 
 
 .. _ckeditorjs:
@@ -33,18 +33,18 @@ See ``static/ckeditorfiles/CHANGES.md``.
 ckeditor.js
 ===========
 
-The entire source code of CKEditor is in ``static/ckeditorfiles/``. This means
+The entire source code of CKEditor is in ``static/ckeditor/``. This means
 that you can include the sources in your templates using::
 
     {% load staticfiles %}
 
     <script type="text/javascript"
-        src="{% static "ckeditorfiles/ckeditor.js" %}"></script>
+        src="{% static "ckeditor/ckeditor.js" %}"></script>
 
 (you do not need to do this if you use the CKEditorWidget)
 
 
-ckeditorfiles.widgets.CKEditorWidget
+ckeditor.widgets.CKEditorWidget
 ====================================
 
 CKEditorWidget is a subclass of ``django.forms.widgets.Textarea``. It
@@ -64,7 +64,7 @@ Example
 In your ``forms.py`` or wherever you define your forms:: 
 
     from django import forms
-    from ckeditorfiles.widgets import CKEditorWidget
+    from ckeditor.widgets import CKEditorWidget
 
     class PageForm(forms.Form):
         body = forms.CharField(widget=CKEditorWidget())
@@ -93,7 +93,7 @@ Configuration examples
 Simple toolbar with bold, italic and show source (with show source in its own box)::
 
     from django import forms
-    from ckeditorfiles.widgets import CKEditorWidget
+    from ckeditor.widgets import CKEditorWidget
 
     class PageForm(forms.Form):
         body = forms.CharField(
@@ -112,12 +112,12 @@ Simple toolbar with bold, italic and show source (with show source in its own bo
 A more complex toolbar, suitable to simple editors, like comments::
 
     from django import forms
-    from ckeditorfiles.widgets import CKEditorWidget
+    from ckeditor.widgets import CKEditorWidget
 
     class PageForm(forms.Form):
         body = forms.CharField(
             widget=CKEditorWidget(config={
-                #'contentsCss': settings.STATIC_URL + 'my_theme/ckeditor.css', # CSS for the body (see static/ckeditorfiles/contents.css for the default)
+                #'contentsCss': settings.STATIC_URL + 'my_theme/ckeditor.css', # CSS for the body (see static/ckeditor/contents.css for the default)
                 'format_tags': 'p;h4', # Only "normal" and "h4" to avoid large headings in the comments
                 'toolbar': [{
                     'name': 'format',
@@ -237,7 +237,7 @@ You can create your own CKEditor configurations as re-usable classes by
 subclassing CKEditorWidget and provide defaults in the ``default_config`` class
 attribute::
 
-    from ckeditorfiles.widgets import CKEditorWidget
+    from ckeditor.widgets import CKEditorWidget
 
     class MyCKEditorWidget(CKEditorWidget):
         default_config = {'toolbar': 'Basic',

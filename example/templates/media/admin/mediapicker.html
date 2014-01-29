@@ -1,0 +1,46 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Media Picker{{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="g-d-c">
+    <div class="g-d-24">
+    {% for obj in objects %}
+        <figure data-credit="{{ obj.credit }}" class="g-d-6 {% cycle "g-d-f" "" "" "g-d-l" %}">
+            <img src="{{ MEDIA_URL }}{{ obj.admin_thumbnail }}" alt="{{ obj.description }}"/>
+            Width:
+            <a href="#" data-img="{{ MEDIA_URL }}{{ obj.image_full }}">Full</a>, 
+            <a href="#" data-img="{{ MEDIA_URL }}{{ obj.image_half }}">Half</a>,
+            <a href="#" data-img="{{ MEDIA_URL }}{{ obj.admin_thumbnail }}">Quarter</a>, 
+        </figure>
+    {% endfor %}
+    </div>
+    </div>
+
+    <script>
+    (function($) {
+        $('a').click(function(e){
+            var img = e.currentTarget;
+
+            window.opener.CKEDITOR.tools.callFunction(funcNum, $(img).attr('data-img'), function(){
+                // -- Set the Image Alt Tag via Caption
+                var dialog = this.getDialog();
+                var element = dialog.getContentElement( 'info', 'txtAlt' );
+                if(element){
+                    element.setValue($(img).parent().find('img').attr('alt'));
+                }
+            });
+            window.close();
+        });
+
+        // -- Helper Functions
+        function getUrlParam(paramName) {
+            var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' ) ;
+            var match = window.location.search.match(reParam) ;
+
+            return ( match && match.length > 1 ) ? match[ 1 ] : null ;
+        }
+        var funcNum = getUrlParam('CKEditorFuncNum');
+    })(grp.jQuery);
+    </script>
+{% endblock %}
