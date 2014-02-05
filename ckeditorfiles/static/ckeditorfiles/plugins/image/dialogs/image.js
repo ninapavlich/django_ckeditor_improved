@@ -86,7 +86,7 @@
 							var raw_float = end >= 0 ? raw_style.substring(float_start+6, end) : raw_style.substring(float_start+6);	
 
 							if(raw_float.indexOf("none")>=0){
-								figureStyles = figureStyles+"display:block;float: "+raw_float+";";
+								figureStyles = figureStyles+"display:block;margin:auto;float: "+raw_float+";";
 								capStyles = "text-align:center;";
 							}else{
 								figureStyles = figureStyles+"display:inline-block;float: "+raw_float+";";
