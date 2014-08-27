@@ -15608,6 +15608,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     CKEDITOR.config.disableNativeTableHandles = !0;
     CKEDITOR.config.disableNativeSpellChecker = !0;
     CKEDITOR.config.contentsCss = CKEDITOR.basePath + "contents.css";
+    //HACK CUSTOM CONTENTS.CSS FILE - nina@cgpartnersllc.com
+    //CKEDITOR.config.contentsCss = "/admin/ckeditorstyles.css";
+
     (function () {
         function e(b, a) {
             if (!a) var g = b.getSelection(),

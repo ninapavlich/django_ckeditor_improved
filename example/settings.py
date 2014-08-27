@@ -88,7 +88,7 @@ LOGIN_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static_root')
 MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
 
 
@@ -170,11 +170,7 @@ CKEDITOR_BASIC = {
         },
         {
             'name': 'basicstyles',
-            'items': ['Bold', 'Italic', 'Underline']
-        },
-        {
-            'name': 'semantic',
-            'items': ['Superscript']
+            'items': ['Bold','Italic','Underline','Strike','Subscript','Superscript']
         },
         {
             'name': 'paragraph',
@@ -191,7 +187,7 @@ CKEDITOR_BASIC = {
         },
         {
             'name': 'insert',
-            'items': ['HorizontalRule', 'SpecialChar']
+            'items': ['HorizontalRule', 'PageBreak', 'SpecialChar', 'Table', 'Iframe', 'Image']
         },
         {
             'name': 'pasting',
@@ -204,11 +200,7 @@ CKEDITOR_BASIC = {
         {
             'name': 'source',
             'items': ['Source']
-        },
-        {
-            'name': 'styles',
-            'items': ['Quote Attribution']
-        }        
+        }       
     ],
     'allowedContent' : 
         'h1 h2 h3 p blockquote strong em sup u;'\
@@ -217,5 +209,7 @@ CKEDITOR_BASIC = {
         'figcaption{width,height,display,float,text-align,margin};'\
         'img[!src,alt,width,height,align,data-caption,style]{display,margin,float};'\
         'div(*);',
-    'removeButtons' : ''
+    'removeButtons' : '',
+    'forcePasteAsPlainText' : 'true',
+    'contentsCss': STATIC_URL + 'admin/ckeditor.css',
 }
