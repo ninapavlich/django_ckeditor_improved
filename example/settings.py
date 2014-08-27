@@ -204,7 +204,11 @@ CKEDITOR_BASIC = {
         {
             'name': 'source',
             'items': ['Source']
-        }
+        },
+        {
+            'name': 'styles',
+            'items': ['Quote Attribution']
+        }        
     ],
     'allowedContent' : 
         'h1 h2 h3 p blockquote strong em sup u;'\

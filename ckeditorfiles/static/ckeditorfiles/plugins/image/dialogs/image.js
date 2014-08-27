@@ -330,16 +330,19 @@
 					this.originalElement.setAttribute( 'alt', '' );
 					this.originalElement.setCustomData( 'isReady', 'false' );
 
+
 					if( figure ){
 						this.figureElement = figure;
 						this.figureEditMode = true;
 
 						// Look for Image element.
 						var figureChildren = figure.getChildren();
-						if ( figureChildren.count() == 2 ) // 1 child.
-						{
+						var figureChildrenCount = figureChildren.count();
+						
+						for(var i=0; i<figureChildrenCount; i++){
 
-							var childTagName = figureChildren.getItem( 0 ).getName();
+							var childTagName = figureChildren.getItem( i ).getName();
+						
 							if ( childTagName == 'img' || childTagName == 'input' ) {
 								this.imageElement = figureChildren.getItem( 0 );
 								if ( this.imageElement.getName() == 'img' ){
@@ -347,18 +350,18 @@
 								}else if ( this.imageElement.getName() == 'input' ){
 									this.imageEditMode = 'input';
 								}
-
-
 							}
 
-							var childTagName = figureChildren.getItem( 1 ).getName();
+							
 							if ( childTagName == 'figcaption') {
 								this.figureCaptionElement = figureChildren.getItem( 1 );								
 							}
 
-							this.imageElement.setAttribute( 'data-caption', this.figureCaptionElement.getHtml());	
-
 						}
+
+						if(this.imageElement && this.figureCaptionElement){
+							this.imageElement.setAttribute( 'data-caption', this.figureCaptionElement.getHtml());	
+						}						
 
 					}
 
