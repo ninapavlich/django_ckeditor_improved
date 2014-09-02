@@ -24,7 +24,8 @@ class CKEditorInlineWidget(Textarea):
         attrs['class'] = cssclass
         final_attrs = self.build_attrs(attrs, name=name)
 
-
+        id_pieces = attrs['id'].split("-")
+        group_name = u"%s-%s"%(id_pieces[0],id_pieces[2])
         
 
         #NOTE -- for inline editors: Inline forms will be assigned an ID after render is called. SO what we do is assign a data attribute here so we can re-look it up.
@@ -40,8 +41,9 @@ class CKEditorInlineWidget(Textarea):
                     '//Set up group config settings\n'
                     'if(typeof CKEDITOR_INLINE_CONFIGS == "undefined"){{CKEDITOR_INLINE_CONFIGS = {{}};}}\n'
                     'var element_id = "{id}";\n'
-                    'var inline_group_name = element_id.substr(0, element_id.indexOf("_set"));\n'
-                    'CKEDITOR_INLINE_CONFIGS[inline_group_name] = {config};\n'
+                    'var inline_group_name = "{group_name}";\n'
+                    '//console.log("element_id "+element_id+" inline_group_name: "+inline_group_name);\n'
+                    'CKEDITOR_INLINE_CONFIGS["{group_name}"] = {config};\n'
                     'function replaceCKEditor(editor_id, replace, config){{\n'
                         '//console.log("Replace editor: "+editor_id);'
                         'if(typeof replace == "undefined"){{replace = true;}}\n'
@@ -69,32 +71,41 @@ class CKEditorInlineWidget(Textarea):
                         'var textareas = grp.jQuery.find("textarea.ckeditorwidget:not(.ckinited)");\n'
                         '//console.log("Found: "+textareas.length+" editrors not inited");\n'           
                         'for(var k=0; k<textareas.length; k++){{\n'
-                        '    var textarea = textareas[k];\n'
-                        '    var textarea_id = grp.jQuery(textarea).attr("id");\n'
-                        '    var isInEmptyForm = grp.jQuery(textarea).hasParent(".grp-empty-form");\n'
-                        '    //console.log(textarea_id+" isInEmptyForm? "+isInEmptyForm);\n'
-                        '    var inline_group_name = textarea_id.substr(0, textarea_id.indexOf("_set"));\n'
-                        '    var has_inline_config = (typeof CKEDITOR_INLINE_CONFIGS != "undefined") && CKEDITOR_INLINE_CONFIGS[inline_group_name];\n' 
-                        '    var use_config = has_inline_config? CKEDITOR_INLINE_CONFIGS[inline_group_name] : {config};\n'
-                        '    //console.log("has has_inline_config for: "+inline_group_name+" ? "+has_inline_config);\n'    
-                        '    if(isInEmptyForm==false){{\n'
-                        '       grp.jQuery(textarea).addClass("ckinited");\n'                        
-                        '       replaceCKEditor(textarea_id, true, use_config);\n'  
-                        '       var parent_containers = grp.jQuery(textarea).parents(".grp-dynamic-form");\n'
-                        '       var dragging_editor_content = "";\n'
-                        '       grp.jQuery(parent_containers).find(".grp-drag-handler").bind("mousedown", {{id:textarea_id}}, function(event ){{\n'
-                        '           dragging_editor_content = getCKEditorContent(event.data.id);\n'
-                        '           replaceCKEditor(event.data.id, false);\n'
-                        '           if(dragging_editor_content!=""){{setTextAreaContent(event.data.id, dragging_editor_content);}}\n'
-                        '       }});\n'
-                        '       grp.jQuery(parent_containers).find(".grp-drag-handler").bind("mouseup", {{id:textarea_id}}, function(event ){{\n'
-                        '           setTimeout(function(){{replaceCKEditor(event.data.id, true, use_config);}},500);\n'     
-                        '       }});\n'
-                        '    }}\n'
+                        '   var textarea = textareas[k];\n'
+                        '   var textarea_id = grp.jQuery(textarea).attr("id");\n'
+                        '   var group_name = textarea_id.split("-")[0]+"-"+textarea_id.split("-")[2];\n'
+                        '   initEditor(textarea, group_name);\n'
                         '}}\n'             
+                    '}}\n'
+                    'function initEditor(textarea, group_name){{\n'
+                    '    var textarea_id = grp.jQuery(textarea).attr("id");\n'
+                    '    //console.log("init "+textarea_id+" of "+group_name);\n'
+                    '    var isInEmptyForm = grp.jQuery(textarea).hasParent(".grp-empty-form");\n'
+                    '    var has_inline_config = (typeof CKEDITOR_INLINE_CONFIGS != "undefined") && (group_name in CKEDITOR_INLINE_CONFIGS);\n' 
+                    '    var use_config = has_inline_config? CKEDITOR_INLINE_CONFIGS[group_name] : {config};\n'
+                    '    //console.log("has has_inline_config for: "+group_name+" ? "+has_inline_config+" width? "+use_config["width"]);\n'    
+                    '    if(isInEmptyForm==false){{\n'
+                    '       grp.jQuery(textarea).addClass("ckinited");\n'                        
+                    '       replaceCKEditor(textarea_id, true, use_config);\n'  
+                    '       var parent_containers = grp.jQuery(textarea).parents(".grp-dynamic-form");\n'
+                    '       var dragging_editor_content = "";\n'
+                    '       grp.jQuery(parent_containers).find(".grp-drag-handler").bind("mousedown", {{id:textarea_id}}, function(event ){{\n'
+                    '           dragging_editor_content = getCKEditorContent(event.data.id);\n'
+                    '           replaceCKEditor(event.data.id, false);\n'
+                    '           if(dragging_editor_content!=""){{setTextAreaContent(event.data.id, dragging_editor_content);}}\n'
+                    '       }});\n'
+                    '       grp.jQuery(parent_containers).find(".grp-drag-handler").bind("mouseup", {{id:textarea_id}}, function(event ){{\n'
+                    '           setTimeout(function(){{replaceCKEditor(event.data.id, true, use_config);}},500);\n'     
+                    '       }});\n'
+                    '    }}\n'                                   
                     '}}\n'                    
-                    'setTimeout(function(){{initEditors();}},500);\n'                                  
-                    '</script>\n').format( id=attrs['id'], config=json.dumps(self.config, indent=2))
+                    'setTimeout(function(){{initEditors();}},500);\n' 
+                    'grp.jQuery( document ).ready(function() {{\n'
+                    '   grp.jQuery(".grp-add-handler").bind("click", function(event){{\n'
+                    '       setTimeout(function(){{initEditors();}},500);\n'
+                    '   }});\n'                         
+                    '}});\n'
+                    '</script>\n').format( id=attrs['id'], config=json.dumps(self.config, indent=2), group_name=group_name)
         return mark_safe(u'<textarea{attrs}>{value}</textarea>{script}'.format(attrs=flatatt(final_attrs),
                                                                        value=conditional_escape(force_unicode(value)),
                                                                        script=script))
