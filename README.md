@@ -98,6 +98,10 @@ Set Up
 
 #forms.py
 ```python
+    
+    from django.conf import settings
+    from ckeditorfiles.widgets import CKEditorWidget
+
     class PageForm(forms.ModelForm):
         class Meta:
             model = Page
