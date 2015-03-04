@@ -13,9 +13,20 @@ Install
 
     $ pip install django_ckeditor_improved
 
-Example
+
+Screenshots
 -------
 
+Figure with Figcaption Dialog:
+![Screenshot of figure caption dialog](/../master/docs/1_dialog.png?raw=true "Figure caption dialog")
+![Screenshot of figure with caption in editor](/../master/docs/2_editor.png?raw=true "Figure with caption in editor")
+![Screenshot of figure caption code](/../master/docs/3_code.png?raw=true "Figure caption code")
+
+CKEditors Inline
+![Screenshot of ckeditors in inlines](/../master/docs/ckeditors_inline.png?raw=true "Inline editors")
+
+Set Up
+-------
 
 #settings.py
 1. Image picker set up at /admin/media/imagepicker/
