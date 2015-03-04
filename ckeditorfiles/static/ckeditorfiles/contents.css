@@ -26,25 +26,32 @@ body
 
 
 /* hack -- image styles for editor */
+.cke_editable figure{
+	padding:5px;
+	border:1px solid #ccc;
+	background-color:#eee;
+}
 .cke_editable figure img{
-  width:100%;
-  float:none !important;
+	max-width:100%;
+	float:none !important;
 }  
 .cke_editable figure figcaption{
-  text-align: left !important;
+	text-align: left !important;
+	padding:5px;
+	border:1px dotted #ccc;
 }      
     
 .cke_editable figure[align="left"],
 .cke_editable figure[style*="float:  left"],
 .cke_editable figure[style*="float: left"],
 .cke_editable figure[style*="float:left"]{
-  margin: 5px 30px 15px 0;
+	margin: 5px 30px 15px 0;
 }
 .cke_editable figure[align="right"],
 .cke_editable figure[style*="float: right"],
 .cke_editable figure[style*="float:  right"],
 .cke_editable figure[style*="float:right"]{
-    margin: 5px 0 15px 30px;
+	margin: 5px 0 15px 30px;
 }
 
 .cke_editable .panel figure[align="left"],
