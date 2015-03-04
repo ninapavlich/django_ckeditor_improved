@@ -9,10 +9,9 @@ This is a fork from https://github.com/espenak/django_ckeditorfiles which has a 
 Install
 =======
 
-::
-
+```
     $ pip install django_ckeditor_improved
-
+```
 
 Screenshots
 -------
@@ -32,6 +31,7 @@ Set Up
 1. Image picker set up at /admin/media/imagepicker/
 2. Custom ckeditor css file loaded from /static/admin/ckeditor.css
 
+```python
     CKEDITOR_BASIC = {
         'filebrowserImageBrowseUrl': '/admin/media/imagepicker/',
         'filebrowserImageWindowWidth': '640',
@@ -87,20 +87,23 @@ Set Up
         'forcePasteAsPlainText' : 'true',
         'contentsCss': STATIC_URL + 'admin/ckeditor.css',
     }
-
+```
 
 #admin.py
+```python
     class PageAdmin(admin.ModelAdmin):
         form = PageForm
+```
 
 
 #forms.py
+```python
     class PageForm(forms.ModelForm):
         class Meta:
             model = Page
             widgets = {
                 'content': CKEditorWidget(config=settings.CKEDITOR_BASIC)
             }
-
+```
 
 See https://github.com/espenak/django_ckeditorfiles for further setup and configuration instructions
