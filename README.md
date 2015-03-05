@@ -33,59 +33,28 @@ Set Up
 
 ```python
     CKEDITOR_BASIC = {
-        'filebrowserImageBrowseUrl': '/admin/media/imagepicker/',
-        'filebrowserImageWindowWidth': '640',
-        'filebrowserImageWindowHeight': '480',
-        'height': '400px',
-        'toolbar': [
-            {
-                'name': 'styles',
-                'items': ['Format']
-            },
-            {
-                'name': 'basicstyles',
-                'items': ['Bold','Italic','Underline','Strike','Subscript','Superscript']
-            },
-            {
-                'name': 'paragraph',
-                'groups': ['list'],
-                'items': ['NumberedList', 'BulletedList', 'Blockquote']
-            },
-            {
-                'name': 'media',
-                'items': ['Image', 'CreateDiv']
-            },
-            {
-                'name': 'links',
-                'items': ['Link', 'Unlink', 'Anchor']
-            },
-            {
-                'name': 'insert',
-                'items': ['HorizontalRule', 'PageBreak', 'SpecialChar', 'Table', 'Iframe', 'Image']
-            },
-            {
-                'name': 'pasting',
-                'items': ['PasteText', 'PasteFromWord', 'RemoveFormat']
-            },
-            {
-                'name': 'tools',
-                'items': ['Maximize']
-            },
-            {
-                'name': 'source',
-                'items': ['Source']
-            }       
+        'skin': 'moono',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
         ],
-        'allowedContent' : 
-            'h1 h2 h3 p blockquote strong em sup u;'\
-            'ol ul li;'\
-            'figure{width,height,display,float};'\
-            'figcaption{width,height,display,float,text-align,margin};'\
-            'img[!src,alt,width,height,align,data-caption,style]{display,margin,float};'\
-            'div(*);',
-        'removeButtons' : '',
+        'toolbar_Full': [
+            ['Format', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript','Superscript','SpellChecker', 'SpecialChar', 'Undo', 'Redo'],
+            ['NumberedList', 'BulletedList', 'Blockquote'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Iframe','Flash', 'Table', 'HorizontalRule', 'PageBreak'],
+            ['PasteText', 'PasteFromWord', 'RemoveFormat'],
+            ['showblocks', 'Source', 'Maximize'],
+        ],
+        'extraPlugins': 'magicline',
+        'magicline_everywhere': 'true',
+        'magicline_color': '#4fb2d3',
+        'toolbar': 'Full',
+        'height': 600,
+        'width': 1000,
+        'filebrowserWindowWidth': 940,
+        'filebrowserWindowHeight': 725,
+        'filebrowserImageBrowseUrl': '/admin/media/imagepicker/',        
         'forcePasteAsPlainText' : 'true',
-        'contentsCss': STATIC_URL + 'admin/ckeditor.css',
     }
 ```
 

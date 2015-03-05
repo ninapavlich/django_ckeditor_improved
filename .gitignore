@@ -10,4 +10,5 @@
 *.egg-info/
 dist/
 venv/
+build/
 static_root/
