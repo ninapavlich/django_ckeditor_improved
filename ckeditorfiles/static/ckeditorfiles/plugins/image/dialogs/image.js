@@ -331,7 +331,9 @@
 					this.originalElement.setCustomData( 'isReady', 'false' );
 
 
+
 					if( figure ){
+						
 						this.figureElement = figure;
 						this.figureEditMode = true;
 
@@ -393,7 +395,22 @@
 						this.imageElement = element;
 					}
 
+					if(!this.figureElement){
+						//If there wasn't a figure before, then let's create a figure wrapper for the image
+						this.figureElement = editor.document.createElement( 'figure' );
+						this.figureCaptionElement = editor.document.createElement( 'figcaption' );
 
+						if(this.imageElement){
+							this.figureElement.append(this.imageElement)
+							this.figureElement.append(this.figureCaptionElement);
+							//Insert a new Figure.
+							editor.insertElement( this.figureElement );
+						}
+						
+					}
+					
+
+					
 					
 					if ( this.imageEditMode ) {
 						// Use the original element as a buffer from  since we don't want

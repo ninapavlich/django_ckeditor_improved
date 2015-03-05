@@ -23,6 +23,9 @@ body
 .cke_editable h5{
 	font-family: Helvetica, sans-serif, Arial, Verdana, "Trebuchet MS";
 } 
+.cke_editable hr{
+	clear:both;
+} 
 
 
 /* hack -- image styles for editor */
