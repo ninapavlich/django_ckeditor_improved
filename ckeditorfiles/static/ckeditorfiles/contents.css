@@ -1,5 +1,3 @@
-@import url('/admin/ckeditorstyles.css') all;
-
 body
 {
 	/* Font */
@@ -69,3 +67,5 @@ body
 }
 /* endhack */
 
+/* Create hook for user to add custom styles to editor */
+@import url('/css/ckeditor.css') all;
