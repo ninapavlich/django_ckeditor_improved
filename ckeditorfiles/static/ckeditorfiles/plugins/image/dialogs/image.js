@@ -1,6 +1,7 @@
 ﻿/**
  * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * EDITED by ninapavlich
  */
 
 (function() {
@@ -237,7 +238,7 @@
 
 					this.setValue( value );
 				};
-
+			
 			var previewPreloader;
 
 			var onImgLoadEvent = function() {
@@ -313,11 +314,57 @@
 					this.addLink = false;
 					this.addFigure = false;
 
-					var editor = this.getParentEditor(),
-						sel = editor.getSelection(),
-						element = sel && sel.getSelectedElement(),
-						link = element && editor.elementPath( element ).contains( 'a', 1 ),
-						figure = element && editor.elementPath( element ).contains( 'figure', 1 );
+					
+
+					var editor = this.getParentEditor();				
+
+
+					//Added parser to get all image figure components -ninapavlich
+					var selection = editor.getSelection();
+
+					
+
+					if (selection.getType() == CKEDITOR.SELECTION_ELEMENT) {
+						
+						var element = selection && selection.getSelectedElement();
+
+					} else if (selection.getType() == CKEDITOR.SELECTION_TEXT) {
+						
+						var clicked = selection.getStartElement();
+						var element = clicked && editor.elementPath( clicked ).contains( 'img', 1 );
+						var figure = clicked && editor.elementPath( clicked ).contains( 'figure', 1 );
+
+						if(element==null){
+
+							element = new CKEDITOR.dom.element('img');
+
+							if(figure==null){
+								figure = new CKEDITOR.dom.element('figure');
+							}
+							figure.append(element);
+						}					
+						
+					}						
+					
+
+					var link = element && editor.elementPath( element ).contains( 'a', 1 );
+					var figure = element && editor.elementPath( element ).contains( 'figure', 1 );
+					var figcaption = figure && figure.getElementsByTag('figcaption').getItem(0);
+
+
+					//DEBUG:
+					// window['editor'] = editor;
+					// window['element'] = element;
+					// window['figure'] = figure;
+					// window['figcaption'] = figcaption;
+					
+					// console.log("element? "+element)
+					// console.log("link? "+link)
+					// console.log("figure? "+figure)
+					// console.log("figcaption? "+figcaption)
+
+					
+					
 
 					//Hide loader.
 					CKEDITOR.document.getById( imagePreviewLoaderId ).setStyle( 'display', 'none' );

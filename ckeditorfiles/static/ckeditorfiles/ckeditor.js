@@ -1,6 +1,7 @@
 ﻿/*
 Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
+* Note -- this file ahs been manually modified by ninapavlich
 */
 (function () {
     if (window.CKEDITOR && window.CKEDITOR.dom) return;
@@ -15608,14 +15609,15 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     CKEDITOR.config.disableNativeTableHandles = !0;
     CKEDITOR.config.disableNativeSpellChecker = !0;
     CKEDITOR.config.contentsCss = CKEDITOR.basePath + "contents.css";
-    //HACK CUSTOM CONTENTS.CSS FILE - nina@cgpartnersllc.com
+    //HACK CUSTOM CONTENTS.CSS FILE - ninapavlich
     //CKEDITOR.config.contentsCss = "/admin/ckeditorstyles.css";
 
     (function () {
         function e(b, a) {
             if (!a) var g = b.getSelection(),
             a = g.getType() == CKEDITOR.SELECTION_ELEMENT && g.getSelectedElement();
-            if (a && a.is("img") && !a.data("cke-realelement") && !a.isReadOnly()) return a
+            //Allow figure and figcaption to be considered an image - ninapavlich
+            if (a && (a.is("img") || a.is("figure") || a.is("figcaption")) && !a.data("cke-realelement") && !a.isReadOnly()) return a
         }
 
         function f(b) {
@@ -15629,6 +15631,34 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             init: function (b) {
                 CKEDITOR.dialog.add("image", this.path + "dialogs/image.js");
                 b.addCommand("image", new CKEDITOR.dialogCommand("image"));
+
+
+                
+                //ADD image remove command -- ninapavlich
+                b.addCommand("removeImage",  {
+                    exec : function( editor ){
+                        
+                        var selection = editor.getSelection();
+                        var clicked = selection.getStartElement();
+                        var figure = clicked && editor.elementPath( clicked ).contains( 'figure', 1 );
+                        var link = clicked && editor.elementPath( clicked ).contains( 'a', 1 );
+
+                        if(figure){
+                            figure.remove();
+                        }else if(link){
+                            link.remove();
+                        }else{
+                            clicked.remove();
+                        }
+                    }
+                });
+                var removeImage = {
+                   label : "Remove Image",
+                   command : 'removeImage',
+                   group : 'image'
+                };
+
+                   
                 b.ui.addButton &&
                     b.ui.addButton("Image", {
                         label: b.lang.common.image,
@@ -15637,19 +15667,35 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                     });
                 b.on("doubleclick", function (a) {
                     var b = a.data.element;
-                    b.is("img") && (!b.data("cke-realelement") && !b.isReadOnly()) && (a.data.dialog = "image")
+                    //Allow doubleclick on figure or figcaption to open dialog - ninapavlich
+                    (b.is("img")||b.is("figure")||b.is("figcaption")) && (!b.data("cke-realelement") && !b.isReadOnly()) && (a.data.dialog = "image")
+                    
                 });
+
                 b.addMenuItems && b.addMenuItems({
                     image: {
                         label: b.lang.image.menu,
                         command: "image",
-                        group: "image"
+                        group: "image",
+                        order:1
+                    },
+                    removeImage: {
+                        label: "Remove Image",
+                        command: "removeImage",
+                        group: "image",
+                        order:2
                     }
                 });
+
+
                 b.contextMenu && b.contextMenu.addListener(function (a) {
-                    if (e(b, a)) return {
-                        image: CKEDITOR.TRISTATE_OFF
-                    }
+                    //Added remove image to rightclick menu - ninapavlich
+                    if (e(b, a)){
+                        return {
+                            image: CKEDITOR.TRISTATE_OFF,
+                            removeImage: CKEDITOR.TRISTATE_OFF
+                        }  
+                    } 
                 })
             },
             afterInit: function (b) {
