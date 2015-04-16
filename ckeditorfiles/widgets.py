@@ -21,6 +21,12 @@ class CKEditorInlineWidget(Textarea):
         cssclass = 'ckeditorwidget'
         if 'class' in attrs:
             cssclass += ' ' + attrs['class']
+
+        if 'imageClasses' in self.config:
+            for imageClass in self.config['imageClasses']:
+                image_class_string = 'image_class_%s'%imageClass
+                cssclass += ' ' + image_class_string
+            
         attrs['class'] = cssclass
         final_attrs = self.build_attrs(attrs, name=name)
 
@@ -127,6 +133,12 @@ class CKEditorWidget(Textarea):
         if value is None:
             value = ''
         cssclass = 'ckeditorwidget'
+
+        if 'imageClasses' in self.config:
+            for imageClass in self.config['imageClasses']:
+                image_class_string = 'image_class_%s'%imageClass
+                cssclass += ' ' + image_class_string
+
         if 'class' in attrs:
             cssclass += ' ' + attrs['class']
         attrs['class'] = cssclass
