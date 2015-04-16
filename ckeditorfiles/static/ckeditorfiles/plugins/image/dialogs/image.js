@@ -336,12 +336,16 @@
 
 						if(element==null){
 
-							element = new CKEDITOR.dom.element('img');
+							if(figure!=null){
+								element = figure.getElementsByTag('img').getItem(0)
+							}							
 
 							if(figure==null){
+								element = new CKEDITOR.dom.element('img');
 								figure = new CKEDITOR.dom.element('figure');
+								figure.append(element);
 							}
-							figure.append(element);
+							
 						}					
 						
 					}						
