@@ -108,7 +108,10 @@
 
 
 						this.figureElement.setAttribute( 'style', figureStyles);
-						this.figureCaptionElement.setAttribute('style', capStyles);
+						
+						if(this.figureCaptionElement){
+							this.figureCaptionElement.setAttribute('style', capStyles);
+						}
 					}
 				}
 				
