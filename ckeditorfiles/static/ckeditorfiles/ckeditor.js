@@ -4084,7 +4084,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     };
     CKEDITOR.resourceManager.prototype = {
         add: function (b, c) {
-            if (this.registered[b]) throw '[CKEDITOR.resourceManager.add] The resource name "' + b + '" is already registered.';
+            // if (this.registered[b]) throw '[CKEDITOR.resourceManager.add] The resource name "' + b + '" is already registered.';
             var a = this.registered[b] = c || {};
             a.name = b;
             a.path = this.getPath(b);
