@@ -32,7 +32,7 @@ class CKEditorInlineWidget(Textarea):
                 cssclass += ' ' + image_class_string
             
         attrs['class'] = cssclass
-        final_attrs = self.build_attrs(attrs, name=name)
+        final_attrs = self.build_attrs(attrs)#Not working in 1.10+ Django, name=name)
 
         id_pieces = attrs['id'].split("-")
         group_name = u"%s-%s"%(id_pieces[0],id_pieces[2])
@@ -146,7 +146,7 @@ class CKEditorWidget(Textarea):
         if 'class' in attrs:
             cssclass += ' ' + attrs['class']
         attrs['class'] = cssclass
-        final_attrs = self.build_attrs(attrs, name=name)
+        final_attrs = self.build_attrs(attrs)#Not working in 1.10+ Django, name=name), name=name)
         script = ('\n<script type="text/javascript">\n'
                   'CKEDITOR.replace("{id}", {config});\n'
                   '//Mark editor inited so it doesnt get reinited by inline system.\n'
