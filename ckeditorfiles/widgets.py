@@ -22,6 +22,9 @@ class CKEditorInlineWidget(Textarea):
     def render(self, name, value, attrs=None):
         if value is None:
             value = ''
+
+        attrs['name'] = name
+
         cssclass = 'ckeditorwidget'
         if 'class' in attrs:
             cssclass += ' ' + attrs['class']
@@ -136,6 +139,9 @@ class CKEditorWidget(Textarea):
     def render(self, name, value, attrs=None):
         if value is None:
             value = ''
+
+        attrs['name'] = name
+        
         cssclass = 'ckeditorwidget'
 
         if 'imageClasses' in self.config:
